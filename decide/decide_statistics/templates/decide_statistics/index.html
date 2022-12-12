@@ -1,0 +1,48 @@
+<html>
+
+<head>
+    <title>Decide statistics</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+</head>
+
+<body>
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a href="/decide_statistics">
+                <span class="navbar-brand mb-0 h1">Decide Statistics</span>
+            </a>
+        </div>
+    </nav>
+    <br></br>
+    <div class="row text-center">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <form id="voting_graph">
+                <label for="voting" class="h2">Votings:</label>
+                <select class="form-select" aria-label="Choose a voting" id="voting" name="voting" required>
+                    <option selected value="0" disabled>Choose a voting</option>
+                    {% for v in votings %}
+                    <option value="{{v.id}}">{{v.desc}}</option>
+                    {% endfor %}
+                </select>
+                <select class="form-select" aria-label="Choose a graph type" id="graph_type" name="graph_type" required>
+                    <option selected value="" disabled>Choose a graph type</option>
+                    <option value="bar">Bar</option>
+                    <option value="pie">Pie</option>
+                    <option value="horizontal_bar">Horizontal bar</option>
+                    <option value="dots">Dots</option>
+                    <option value="line">Line</option>
+                </select>
+            </form>
+            <button type="submit" class="btn btn-success" form="voting_graph">Consultar</button>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+
+</body>
+
+</html>
