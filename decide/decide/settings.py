@@ -60,7 +60,7 @@ AUTHENTICATION_BACKENDS = [
 
 MODULES = [
     'decide.authentication',
-    'decide.base',
+    'decide.basdisjfoidjse',
     'decide.booth',
     'decide.census',
     'decide.mixnet',
