@@ -109,11 +109,11 @@ WSGI_APPLICATION = 'decide.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'decide',
-        'USER': 'decide',
-        'PASSWORD': 'decide',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': 'railway',
+        'USER': 'postgres',
+        'PASSWORD': 'WBD54xiwdWG2tboiPcao',
+        'HOST': 'containers-us-west-168.railway.app',
+        'PORT': '6225',
     }
 }
 
