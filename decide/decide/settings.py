@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'rest_framework_swagger',
-    'decide.gateway',
+    'gateway',
 ]
 
 REST_FRAMEWORK = {
@@ -59,15 +59,15 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 MODULES = [
-    'decide.authentication',
-    'decide.base',
-    'decide.booth',
-    'decide.census',
-    'decide.mixnet',
-    'decide.postproc',
-    'decide.store',
-    'decide.visualizer',
-    'decide.voting',
+    'authentication',
+    'base',
+    'booth',
+    'census',
+    'mixnet',
+    'postproc',
+    'store',
+    'visualizer',
+    'voting',
 ]
 
 BASEURL = 'http://localhost:8000'
