@@ -1,1 +1,1 @@
-web: gunicorn decide.wsgi --log-file -
+web: gunicorn decide.decide.wsgi --log-file -
