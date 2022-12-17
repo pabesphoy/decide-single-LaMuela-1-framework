@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 # Quick-start development settings - unsuitable for production
@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'rest_framework_swagger',
-    'decide.gateway',
+    'gateway',
 ]
 
 REST_FRAMEWORK = {
@@ -59,15 +59,15 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 MODULES = [
-    'decide.authentication',
-    'decide.basdisjfoidjse',
-    'decide.booth',
-    'decide.census',
-    'decide.mixnet',
-    'decide.postproc',
-    'decide.store',
-    'decide.visualizer',
-    'decide.voting',
+    'authentication',
+    'base',
+    'booth',
+    'census',
+    'mixnet',
+    'postproc',
+    'store',
+    'visualizer',
+    'voting',
 ]
 
 BASEURL = 'http://localhost:8000'
