@@ -11,5 +11,4 @@ django-nose==1.4.6
 jsonnet==0.12.1
 matplotlib
 gunicorn
-gateway
 selenium
