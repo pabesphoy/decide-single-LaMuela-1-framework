@@ -1,0 +1,1 @@
+web: gunicorn decide.wsgi --log-file -
