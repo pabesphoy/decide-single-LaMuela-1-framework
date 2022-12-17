@@ -25,7 +25,7 @@ SECRET_KEY = '^##ydkswfu0+=ofw0l#$kv^8n)0$i(qd&d&ol#p9!b$8*5%j1+'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'rest_framework_swagger',
-    'gateway',
+    'decide.gateway',
 ]
 
 REST_FRAMEWORK = {
@@ -55,19 +55,19 @@ REST_FRAMEWORK = {
 }
 
 AUTHENTICATION_BACKENDS = [
-    'base.backends.AuthBackend',
+    'decide.base.backends.AuthBackend',
 ]
 
 MODULES = [
-    'authentication',
-    'base',
-    'booth',
-    'census',
-    'mixnet',
-    'postproc',
-    'store',
-    'visualizer',
-    'voting',
+    'decide.authentication',
+    'decide.base',
+    'decide.booth',
+    'decide.census',
+    'decide.mixnet',
+    'decide.postproc',
+    'decide.store',
+    'decide.visualizer',
+    'decide.voting',
 ]
 
 BASEURL = 'http://localhost:8000'
@@ -109,11 +109,11 @@ WSGI_APPLICATION = 'decide.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'decide',
-        'USER': 'decide',
-        'PASSWORD': 'decide',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': 'railway',
+        'USER': 'postgres',
+        'PASSWORD': 'WBD54xiwdWG2tboiPcao',
+        'HOST': 'containers-us-west-168.railway.app',
+        'PORT': '6225',
     }
 }
 
