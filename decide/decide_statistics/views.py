@@ -9,10 +9,36 @@ from decide_statistics import tests
 import logging
 from django.conf import settings
 import datetime
+from random import randint
 
 logging.getLogger('matplotlib.font_manager').disabled = True
 
 graph_image_directory = 'decide_statistics/static/decide_statistics/graph.png'
+
+def create_voting():
+        q = Question(desc='test question')
+        now = datetime.datetime.now()
+        opts = []
+        q.save()
+        for i in range(5):
+            opt = QuestionOption(question=q, option='option {}'.format(i+1))
+            opt.save()
+            opts.append({
+                'option': opt.option,
+                'number': opt.number,
+                'votes': randint(1,1000)
+            })
+        data = { 'type': 'IDENTITY', 'options': opts }
+        postp = mods.post('postproc', json=data)
+        v = Voting(name='test voting {}'.format(randint(1,1000)), question=q, postproc = postp, start_date = now, end_date = now)
+        v.save()
+
+        a, _ = Auth.objects.get_or_create(url=settings.BASEURL,
+                                          defaults={'me': True, 'name': 'test auth'})
+        a.save()
+        v.auths.add(a)
+
+        return v
 
 def index(request):
     votings = Voting.objects.filter(end_date__isnull = False).filter(postproc__isnull = False)
@@ -67,7 +93,7 @@ def show_bar(voting_id):
     ax.bar(options_str, counts, label=options_str, color=bar_colors)
     ax.set_title(voting.question.desc)
     ax.legend(title='Opciones')
-    plt.savefig(graph_image_directory)
+    save_plt_to_image()
 
 def show_pie(voting_id):
     fig, ax = plt.subplots()
@@ -76,7 +102,7 @@ def show_pie(voting_id):
 
     plt.pie(y, labels = options_str)
     plt.legend(title = voting.question.desc)
-    plt.savefig(graph_image_directory)
+    save_plt_to_image()
 
 def show_horizontal_bar(voting_id):
     fig, ax = plt.subplots()
@@ -90,7 +116,7 @@ def show_horizontal_bar(voting_id):
     ax.set_xlabel('Options')
     ax.set_title(voting.question.desc)
 
-    plt.savefig(graph_image_directory)
+    save_plt_to_image()
 
 def show_dots(voting_id):
     fig, ax = plt.subplots()
@@ -98,14 +124,16 @@ def show_dots(voting_id):
 
     ax.scatter(options_str, counts, color=bar_colors)
     plt.legend(title = voting.question.desc)
-    plt.savefig(graph_image_directory)
+    save_plt_to_image()
 
 def show_plot(voting_id):
     fig, ax = plt.subplots()
     voting, options_str, counts, bar_colors = get_voting_showing_parameters(voting_id)
     ax.plot(options_str, counts)
     plt.legend(title = voting.question.desc)
-    plt.savefig(graph_image_directory)
+    save_plt_to_image()
+
+    create_voting()
 
 def get_voting_showing_parameters(voting_id):
     voting = Voting.objects.get(id__exact = voting_id)
@@ -122,3 +150,11 @@ def get_voting_showing_parameters(voting_id):
         bar_colors.append(next(color_cycler))
 
     return voting, options_str, counts, bar_colors
+
+def save_plt_to_image():
+    try:
+        plt.savefig(graph_image_directory)
+    except:
+        plt.savefig("decide/" + graph_image_directory)
+
+
