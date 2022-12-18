@@ -122,3 +122,4 @@ def get_voting_showing_parameters(voting_id):
         bar_colors.append(next(color_cycler))
 
     return voting, options_str, counts, bar_colors
+
