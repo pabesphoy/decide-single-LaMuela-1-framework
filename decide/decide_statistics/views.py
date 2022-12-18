@@ -15,7 +15,7 @@ logging.getLogger('matplotlib.font_manager').disabled = True
 
 graph_image_directory = 'decide_statistics/static/decide_statistics/graph.png'
 
-def create_voting():
+def create_voting(request):
         q = Question(desc='test question')
         now = datetime.datetime.now()
         opts = []
@@ -38,7 +38,7 @@ def create_voting():
         a.save()
         v.auths.add(a)
 
-        return v
+        return HttpResponse(v.pk)
 
 def index(request):
     votings = Voting.objects.filter(end_date__isnull = False).filter(postproc__isnull = False)
@@ -121,8 +121,8 @@ def show_horizontal_bar(voting_id):
 def show_dots(voting_id):
     fig, ax = plt.subplots()
     voting, options_str, counts, bar_colors = get_voting_showing_parameters(voting_id)
-
-    ax.scatter(options_str, counts, color=bar_colors)
+    for i in range(options_str.__len__()):
+        ax.scatter(options_str[i], counts[i], color=bar_colors[i], label=options_str[i])
     plt.legend(title = voting.question.desc)
     save_plt_to_image()
 
@@ -132,8 +132,6 @@ def show_plot(voting_id):
     ax.plot(options_str, counts)
     plt.legend(title = voting.question.desc)
     save_plt_to_image()
-
-    create_voting()
 
 def get_voting_showing_parameters(voting_id):
     voting = Voting.objects.get(id__exact = voting_id)

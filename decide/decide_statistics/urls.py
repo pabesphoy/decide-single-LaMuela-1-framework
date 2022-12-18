@@ -4,5 +4,5 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    #path('<int:voting_id>/<str:graph_type>', views.showVoting, name="showVoting"),
+    path('test_voting/', views.create_voting, name='test_create')
 ]
