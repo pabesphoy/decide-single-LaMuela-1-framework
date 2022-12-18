@@ -16,13 +16,14 @@ class AuthBackend(ModelBackend):
     def authenticate(self, request, username=None, password=None, **kwargs):
         u = super().authenticate(request, username=username,
                                  password=password, **kwargs)
-
+        
         # only doing this for the admin web interface
         if u and request.content_type == 'application/x-www-form-urlencoded':
             data = {
                 'username': username,
                 'password': password,
             }
+            print(data)
             token = mods.post('authentication', entry_point='/login/', json=data)
             request.session['auth-token'] = token['token']
 
