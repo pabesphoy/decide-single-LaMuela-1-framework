@@ -2,6 +2,8 @@ from django.test import TestCase, Client
 from base.tests import BaseTestCase
 from voting.models import Voting, Question, QuestionOption, Auth
 from django.conf import settings
+from base import mods
+import datetime
 
 class CensusTestCase(BaseTestCase):
 
@@ -15,11 +17,20 @@ class CensusTestCase(BaseTestCase):
 
     def create_voting(self):
         q = Question(desc='test question')
+        now = datetime.datetime.now()
+        opts = []
         q.save()
         for i in range(5):
             opt = QuestionOption(question=q, option='option {}'.format(i+1))
             opt.save()
-        v = Voting(name='test voting', question=q)
+            opts.append({
+                'option': opt.option,
+                'number': opt.number,
+                'votes': i
+            })
+        data = { 'type': 'IDENTITY', 'options': opts }
+        postp = mods.post('postproc', json=data)
+        v = Voting(name='test voting', question=q, postproc = postp, start_date = now, end_date = now)
         v.save()
 
         a, _ = Auth.objects.get_or_create(url=settings.BASEURL,

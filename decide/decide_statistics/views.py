@@ -1,28 +1,43 @@
 from django.shortcuts import render
-from voting.models import Voting, QuestionOption
+from voting.models import Voting, QuestionOption, Question, Auth
+from base import mods
 from django.http import HttpResponse
 import matplotlib.pyplot as plt
 from itertools import cycle
 import numpy as np
+from decide_statistics import tests
 import logging
+from django.conf import settings
+import datetime
 
 logging.getLogger('matplotlib.font_manager').disabled = True
 
-graph_image_directory = 'decide/decide_statistics/static/decide_statistics/graph.png'
+graph_image_directory = 'decide_statistics/static/decide_statistics/graph.png'
 
 def index(request):
-    votings = Voting.objects.all()
+    votings = Voting.objects.filter(end_date__isnull = False).filter(postproc__isnull = False)
+    votings_with_votes = []
+    for voting in votings:
+        number_of_votes = 0
+        for postproc in voting.postproc:
+            number_of_votes += int(postproc['votes'])
+        if number_of_votes > 0:
+            votings_with_votes.append(voting)
+
     
-    modelmap = {"votings":votings}
+    modelmap = {"votings":votings_with_votes}
     voting = request.GET.get("voting")
     graph_type = request.GET.get("graph_type")
     if voting is None:
         voting = 0
     if graph_type is None:
         graph_type = ''
-
     if voting == 0 or voting == '0' or graph_type == '':
         return render(request, "decide_statistics/index.html", modelmap)
+    elif Voting.objects.filter(id__exact = voting).count() == 0:
+        return HttpResponse("Esta votación no existe")
+    elif Voting.objects.get(id__exact = voting) not in votings_with_votes:
+        return HttpResponse("Esta votación no ha terminado o no tiene votos")
     else:
         return showVoting(request, voting, graph_type, modelmap)
     
@@ -93,22 +108,17 @@ def show_plot(voting_id):
     plt.savefig(graph_image_directory)
 
 def get_voting_showing_parameters(voting_id):
-    
-    for v in Voting.objects.all():
-        print(v.pk)
     voting = Voting.objects.get(id__exact = voting_id)
     options = QuestionOption.objects.filter(question = voting.question)
     options_str = []
     bar_colors = []
     counts = []
-    for opt in options:
-        options_str.append(opt.option)
-        counts.append(opt.number)
+    for v in voting.postproc:
+        options_str.append(v['option'])
+        counts.append(v['votes'])
 
     color_cycler = cycle(['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf'])
     for i in range(0, len(counts)):
         bar_colors.append(next(color_cycler))
 
     return voting, options_str, counts, bar_colors
-
-

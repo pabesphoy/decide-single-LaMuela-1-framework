@@ -55,7 +55,7 @@ REST_FRAMEWORK = {
 }
 
 AUTHENTICATION_BACKENDS = [
-    'decide.base.backends.AuthBackend',
+    'base.backends.AuthBackend',
 ]
 
 MODULES = [
