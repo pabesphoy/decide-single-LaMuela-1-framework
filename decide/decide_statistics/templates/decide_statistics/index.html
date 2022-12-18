@@ -22,20 +22,21 @@
         <div class="col-md-3"></div>
         <div class="col-md-6">
             <form id="voting_graph">
-                <label for="voting" class="h2">Votings:</label>
-                <select class="form-select" aria-label="Choose a voting" id="voting" name="voting" required>
-                    <option selected value="0" disabled>Choose a voting</option>
+                <label for="voting" class="h2">Votaciones:</label>
+                <h3>Solo votaciones terminadas y con algún voto pueden ser mostradas</h3>
+                <select class="form-select" aria-label="Elija una votación" id="voting" name="voting" required>
+                    <option selected value="0" disabled>Elija una votación</option>
                     {% for v in votings %}
-                    <option value="{{v.id}}">{{v.desc}}</option>
+                    <option value="{{v.id}}">{{v.name}}</option>
                     {% endfor %}
                 </select>
-                <select class="form-select" aria-label="Choose a graph type" id="graph_type" name="graph_type" required>
-                    <option selected value="" disabled>Choose a graph type</option>
-                    <option value="bar">Bar</option>
-                    <option value="pie">Pie</option>
-                    <option value="horizontal_bar">Horizontal bar</option>
-                    <option value="dots">Dots</option>
-                    <option value="line">Line</option>
+                <select class="form-select" aria-label="Elija un tipo de gráfico" id="graph_type" name="graph_type" required>
+                    <option selected value="" disabled>Elija un tipo de gráfico</option>
+                    <option value="bar">Barra</option>
+                    <option value="pie">Tarta</option>
+                    <option value="horizontal_bar">Barra horizontal</option>
+                    <option value="dots">Puntos</option>
+                    <option value="line">Linea</option>
                 </select>
             </form>
             <button type="submit" class="btn btn-success" form="voting_graph">Consultar</button>
